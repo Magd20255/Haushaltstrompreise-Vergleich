@@ -1,0 +1,7 @@
+•	Literaturverzeichnis: Die Daten in der Excel-Datei Stammen aus folgenden Quellen: 
+[1] Statistisches Bundesamt (Destatis), “Erdgas- und Stromdurchschnittspreise,” 2024. Online verfügbar unter: https://www.destatis.de/DE/Themen/Wirtschaft/Preise/Erdgas-Strom-DurchschnittsPreise/_inhalt.html (Zugriff am 21.06.2025).
+[2] GlobalPetrolPrices, “USA Electricity Prices – GlobalPetrolPrices.com,” 2024. Online verfügbar unter: https://www.globalpetrolprices.com/USA/electricity_prices/ (Zugriff am 21.06.2025).
+[3] GlobalPetrolPrices, “India Electricity Prices – GlobalPetrolPrices.com,” 2024. Online verfügbar unter: https://www.globalpetrolprices.com/India/electricity_prices/ (Zugriff am 21.06.2025).
+[9] Statistisches Bundesamt (Destatis), “Verdienste nach Branchen und Berufen,” 2024. Online verfügbar unter: https://www.destatis.de/DE/Themen/Arbeit/Verdienste/Verdienste-Branche-Berufe/_inhalt.html (Zugriff am 21.06.2025).
+[10] Knit People, “Average Salary in the US – Knit People,” 2024. Online verfügbar unter: https://www.knitpeople.com/blog/average-salary-us (Zugriff am 21.06.2025).
+[11] Statista, “India – Average Monthly Salary by City 2024,” 2024. Online verfügbar unter: https://www.statista.com/statistics/1305070/india-average-monthly-salary-by-city/ (Zugriff am 21.06.2025).
