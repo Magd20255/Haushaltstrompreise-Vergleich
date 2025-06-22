@@ -61,5 +61,5 @@ Ein vollständiges Literaturverzeichnis liegt als .txt Datei im Projektordner be
 
 *Magd Alwajih*  
 HTW Berlin – Studiengang Angewandte Informatik  
-Seminararbeit – Einführung in Data Science
+Seminararbeit – Einführung Data Science
 
