@@ -1,0 +1,129 @@
+package com.mycompany.mavenproject1;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartUtils;
+import org.jfree.data.category.DefaultCategoryDataset;
+public class Strompreise {
+    public static void main(String[] args) {
+        // Umrechnungsfaktor von USD zu EUR
+        double usdToEurRate = 0.93;
+
+        // Datensatz für das Balkendiagramm vorbereiten
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        try (InputStream is = Strompreise.class.getResourceAsStream("/Strompreise.xlsx");
+             Workbook wb = new XSSFWorkbook(is)) {
+
+            // Erstes Tabellenblatt aus der Excel-Datei lesen
+            Sheet sheet = wb.getSheetAt(0);
+
+            // Durch alle Zeilen der Tabelle (außer Kopfzeile) iterieren
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                // Name des Landes aus der ersten Spalte
+                String land = row.getCell(0).getStringCellValue();
+
+                // Preiszelle (Spalte 2) auslesen
+                Cell preisCell = row.getCell(1);
+                double preis = 0.0;
+
+                // Überprüfen, ob der Preis numerisch oder als String vorliegt
+                if (preisCell.getCellType() == CellType.NUMERIC) {
+                    preis = preisCell.getNumericCellValue();
+                } else if (preisCell.getCellType() == CellType.STRING) {
+                    try {
+                        preis = Double.parseDouble(preisCell.getStringCellValue());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Fehler beim Umwandeln der Preis-Zelle: " + e.getMessage());
+                        continue; // Zeile überspringen bei Fehler
+                    }
+                }
+
+                // Währungszelle (Spalte 3) auslesen
+                Cell cell = row.getCell(2);
+                String waehrung = "";
+                if (cell.getCellType() == CellType.STRING) {
+                    waehrung = cell.getStringCellValue();
+                } else if (cell.getCellType() == CellType.NUMERIC) {
+                    waehrung = String.valueOf(cell.getNumericCellValue());
+                }
+
+                // Preis ggf. in EUR umrechnen (wenn in USD angegeben)
+                double preisEur = "USD".equalsIgnoreCase(waehrung) ? preis * usdToEurRate : preis;
+
+                // Wert zum Datensatz hinzufügen
+                dataset.addValue(preisEur, "Strompreis", land);
+            }
+        } catch (IOException e) {
+            System.err.println("Fehler beim Lesen der Datei: " + e.getMessage());
+            return;
+        }
+
+        // Balkendiagramm erstellen
+        JFreeChart chart = ChartFactory.createBarChart(
+            "Strompreise 2024 im internationalen Vergleich", // Titel des Diagramms
+            "Land",                                          // X-Achse
+            "Preis in ct/kWh (EUR)",                         // Y-Achse
+            dataset                                          // Datenquelle
+        );
+
+        // Diagramm als PNG speichern
+        try (FileOutputStream out = new FileOutputStream("strompreise_2024.png")) {
+            ChartUtils.writeChartAsPNG(out, chart, 800, 600);
+            System.out.println("Diagramm gespeichert: strompreise_2024.png");
+        } catch (IOException e) {
+            System.err.println("Fehler beim Speichern des Diagramms: " + e.getMessage());
+        }
+    }
+}
+
+
+
+
+
+pom.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>mavenproject1</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
+        <exec.mainClass>com.mycompany.mavenproject1.Mavenproject1</exec.mainClass>
+    </properties>
+    <dependencies>
+  
+  <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>5.2.3</version>
+   
+  </dependency>
+
+  <dependency>
+    <groupId>org.jfree</groupId>
+    <artifactId>jfreechart</artifactId>
+    <version>1.5.3</version>
+  </dependency>
+</dependencies>
+<build>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>/*</include>
+            </includes>
+        </resource>
+    </resources>
+</build>
+</project>

@@ -1,0 +1,39 @@
+import pandas as pd
+
+# Einlesen der Excel-Datei mit den relevanten Daten (Land, Strompreis, Einkommen)
+df = pd.read_excel("Strompreise.xlsx")
+
+# Berechnung der Stromkosten bei einem monatlichen Verbrauch von 300 kWh
+# Die Preise sind in Cent pro kWh, daher erfolgt die Division durch 100 zur Umrechnung in EUR
+df["Stromkosten_300kWh"] = df["Preis in EUR (ct/KWh)"] * 300 / 100
+
+# Berechnung des Anteils der Stromkosten am monatlichen Einkommen in Prozent
+df["Anteil_Monat"] = (df["Stromkosten_300kWh"] / df["Einkommen in EUR"]) * 100
+
+# Klassifizierung der finanziellen Belastung durch die Stromkosten
+# Hoch: über 10 %, Mittel: 5–10 %, Niedrig: unter 5 %
+def classify_burden(anteil):
+    if anteil > 10:
+        return "Hoch"
+    elif anteil > 5:
+        return "Mittel"
+    else:
+        return "Niedrig"
+
+# Anwendung der Klassifikationsfunktion auf jede Zeile
+df["Stromkostenbelastung"] = df["Anteil_Monat"].apply(classify_burden)
+
+# Konsolenausgabe der analysierten Daten pro Land
+print("🔍 Analyse der Stromkosten:\n")
+for i, row in df.iterrows():
+    print(f"Land: {row['Land']}")
+    print(f"  ➤ Stromkosten für 300 kWh: {row['Stromkosten_300kWh']:.2f} EUR")
+    print(f"  ➤ Anteil vom Monatseinkommen: {row['Anteil_Monat']:.2f}%")
+    print(f"  ➤ Stromkostenbelastung: {row['Stromkostenbelastung']}")
+    print("-" * 40)
+
+# Ausgabe der Länder in aufsteigender Reihenfolge nach Anteil am Einkommen
+print("\n📊 Länder sortiert nach Anteil vom Einkommen (aufsteigend):")
+df_sorted = df.sort_values('Anteil_Monat')
+for i, row in df_sorted.iterrows():
+    print(f"{row['Land']}: {row['Anteil_Monat']:.2f}%")
