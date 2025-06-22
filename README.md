@@ -21,7 +21,8 @@ Es untersucht die Strompreise und deren finanzielle Belastung für private Haush
   - Python (Google Colab)  
   - Java (Apache POI, JFreeChart)  
 - *Plattformen*:  
-  - Microsoft Excel (für Dateneingabe & Vorbereitung)  
+  - Microsoft Excel (für Dateneingabe & Vorbereitung) 
+  - Microsoft Word  (zur Sammlung und Bearbeitung der Inhalte)
   - GitHub (Versionierung & Dokumentation)
 
 - *Bibliotheken*:  
@@ -60,5 +61,5 @@ Ein vollständiges Literaturverzeichnis liegt als .txt Datei im Projektordner be
 
 *Magd Alwajih*  
 HTW Berlin – Studiengang Angewandte Informatik  
-Semesterprojekt – Einführung in Data Science
+Seminararbeit – Einführung in Data Science
 
